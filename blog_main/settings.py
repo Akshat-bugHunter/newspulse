@@ -40,7 +40,6 @@ CSRF_TRUSTED_ORIGINS = [
     "https://newspulse-pkat.onrender.com",
 ]
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -48,6 +47,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'cloudinary',
+    'cloudinary_storage',
+
     'blogs',
     'assignments',
     'crispy_forms',
@@ -141,15 +144,21 @@ STATIC_ROOT = BASE_DIR /'static'
 STATICFILES_DIRS = [
     'blog_main/static',
 ]
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR /'media'
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -165,3 +174,4 @@ ANTHROPIC_MODEL = os.environ.get('ANTHROPIC_MODEL', 'claude-sonnet-5-5')
 NEWSAPI_KEY = os.environ.get('NEWSAPI_KEY', '')
 # Pagination
 POSTS_PER_PAGE = 6
+CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL', '')
