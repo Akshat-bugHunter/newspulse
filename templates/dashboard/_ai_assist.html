@@ -1,0 +1,33 @@
+<div class="card border-warning mb-3" id="ai-panel">
+  <div class="card-body py-2">
+    <button type="button" id="ai-btn" class="btn btn-sm btn-dark"><i class="fa fa-magic"></i> AI Assist</button>
+    <small class="text-muted ml-2">Generates a summary, card description, keywords and reading time from your article body.</small>
+    <div id="ai-out" class="mt-2 small" style="display:none"></div>
+  </div>
+</div>
+<script>
+(function () {
+  var btn = document.getElementById('ai-btn'), out = document.getElementById('ai-out');
+  btn.addEventListener('click', function () {
+    var title = document.getElementById('id_title').value, body = document.getElementById('id_blog_body').value;
+    var token = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    btn.disabled = true; btn.textContent = 'Thinking...'; out.style.display = 'none';
+    fetch("{% url 'ai_assist' %}", {
+      method: 'POST', headers: {'Content-Type': 'application/json', 'X-CSRFToken': token},
+      body: JSON.stringify({title: title, body: body})
+    }).then(function (r) { return r.json().then(function (d) { return {ok: r.ok, d: d}; }); })
+    .then(function (res) {
+      out.style.display = 'block';
+      if (!res.ok) { out.textContent = res.d.error || 'Something went wrong.'; return; }
+      var d = res.d, desc = document.getElementById('id_short_description');
+      if (!desc.value.trim()) desc.value = d.description;
+      var html = '<b>Summary:</b> ' + esc(d.summary) + '<br><b>Keywords:</b> ' + d.keywords.map(esc).join(', ') +
+        '<br><b>Reading time:</b> ' + d.reading_time + ' min <span class="badge badge-light border">' + d.source + '</span>';
+      if (d.headlines && d.headlines.length) html += '<br><b>Headline ideas:</b><ul class="mb-0">' + d.headlines.map(function (h) { return '<li>' + esc(h) + '</li>'; }).join('') + '</ul>';
+      out.innerHTML = html;
+    }).catch(function () { out.style.display = 'block'; out.textContent = 'Request failed.'; })
+    .finally(function () { btn.disabled = false; btn.innerHTML = '<i class="fa fa-magic"></i> AI Assist'; });
+  });
+  function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+})();
+</script>

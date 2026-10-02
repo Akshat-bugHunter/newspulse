@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}{% if keyword %}Search: {{ keyword }} - NewsPulse{% else %}Search - NewsPulse{% endif %}{% endblock %}
+
+{% block content %}
+<div class="category-header-banner p-4 p-md-4 mb-4 rounded-lg bg-white border">
+  <div class="d-flex flex-wrap align-items-center justify-content-between">
+    <div>
+      <div class="text-muted small mb-1">
+        <a href="{% url 'home' %}" class="text-secondary"><i class="fa fa-home mr-1"></i>Home</a>
+        <span class="mx-1">&rsaquo;</span>
+        <span class="text-dark font-weight-600">Search</span>
+      </div>
+      <h1 class="category-title mb-1 font-weight-bold">
+        {% if keyword %}Results for &ldquo;{{ keyword }}&rdquo;{% else %}Search Articles{% endif %}
+      </h1>
+      <p class="text-muted mb-0 small">
+        {% if keyword %}
+          Found {{ total }} matching article{{ total|pluralize }}.
+        {% else %}
+          Search across all published news stories and analysis.
+        {% endif %}
+      </p>
+    </div>
+    {% if keyword %}
+    <div class="mt-2 mt-md-0">
+      <span class="category-badge">
+        <i class="fa fa-search mr-1"></i>{{ total }} Result{{ total|pluralize }}
+      </span>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-8 blog-main">
+    {% for post in page_obj %}
+      {% include '_post_card.html' %}
+    {% empty %}
+      <div class="text-center py-5 bg-white rounded-lg border">
+        <i class="fa fa-search fa-3x text-muted mb-3"></i>
+        <h5>No results found</h5>
+        <p class="text-muted">{% if keyword %}No articles matched "{{ keyword }}". Try broader keywords.{% else %}Type your query in the search bar above.{% endif %}</p>
+        <a href="{% url 'home' %}" class="btn btn-sm btn-outline-primary rounded-pill">Return to Homepage</a>
+      </div>
+    {% endfor %}
+
+    {% include '_pagination.html' %}
+  </div>
+
+  <div class="col-lg-4">
+    {% include '_sidebar.html' %}
+  </div>
+</div>
+{% endblock %}

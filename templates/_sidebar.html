@@ -1,0 +1,94 @@
+<aside class="blog-sidebar">
+  {% if trending_posts %}
+  <div class="sidebar-widget mb-4 p-4 rounded-lg bg-white shadow-sm border">
+    <h5 class="widget-title mb-3">
+      <span class="widget-title-icon text-danger mr-2"
+        ><i class="fa fa-fire"></i></span
+      >Trending Stories
+    </h5>
+    <div class="trending-feed">
+      {% for t in trending_posts %}
+      <div
+        class="trending-item d-flex align-items-start py-2 {% if not forloop.last %}border-bottom{% endif %}"
+      >
+        <span class="trending-rank mr-3">{{ forloop.counter }}</span>
+        <div class="trending-content flex-grow-1">
+          <a
+            href="{% url 'posts_by_category' t.category.id %}"
+            class="badge badge-light-category mb-1"
+            >{{ t.category }}</a
+          >
+          <h6 class="trending-title mb-1">
+            <a href="{% url 'blogs' t.slug %}" class="text-dark"
+              >{{ t.title }}</a
+            >
+          </h6>
+          <small class="text-muted"
+            ><i class="fa fa-eye mr-1"></i>{{ t.views }} views &middot; {{
+            t.reading_time }} min read</small
+          >
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="sidebar-widget mb-4 p-4 rounded-lg bg-white shadow-sm border">
+    <h5 class="widget-title mb-3">
+      <span class="widget-title-icon text-primary mr-2"
+        ><i class="fa fa-th-large"></i></span
+      >Explore Topics
+    </h5>
+    <div class="category-tags d-flex flex-wrap">
+      {% for cat in categories %}
+      <a
+        href="{% url 'posts_by_category' cat.id %}"
+        class="category-pill mb-2 mr-2 {% if category and cat.id == category.id or single_blog and single_blog.category.id == cat.id %}active{% endif %}"
+      >
+        {{ cat.category_name }}
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% if site_about %}
+  <div class="sidebar-widget mb-4 p-4 rounded-lg bg-white shadow-sm border">
+    <h5 class="widget-title mb-2">
+      <span class="widget-title-icon text-warning mr-2"
+        ><i class="fa fa-info-circle"></i></span
+      >{{ site_about.about_heading }}
+    </h5>
+    <p class="text-muted small mb-0">{{ site_about.about_description }}</p>
+  </div>
+  {% endif %}
+
+  <div class="sidebar-widget mb-4 p-4 rounded-lg bg-white shadow-sm border">
+    <h5 class="widget-title mb-3">
+      <span class="widget-title-icon text-info mr-2">
+        <i class="fa fa-share-alt"></i>
+      </span>
+      Connect With Us
+    </h5>
+    <div class="social-buttons d-flex flex-wrap">
+      <!-- GitHub -->
+      <a
+        href="https://github.com/Akshat-bugHunter"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn-sm btn-outline-secondary rounded-pill mr-2 mb-2"
+      >
+        <i class="fa fa-github mr-1"></i> GitHub
+      </a>
+      <!-- LinkedIn -->
+      <a
+        href="https://www.linkedin.com/in/akshat-saxena-487b79333/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn-sm btn-outline-secondary rounded-pill mr-2 mb-2"
+      >
+        <i class="fa fa-linkedin mr-1"></i> LinkedIn
+      </a>
+    </div>
+  </div>
+</aside>

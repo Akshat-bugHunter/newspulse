@@ -1,0 +1,113 @@
+{% load static %}<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}NewsPulse{% endblock %}</title>
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="NewsPulse"
+      href="{% url 'rss_feed' %}"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900|Inter:400,500,600"
+      rel="stylesheet"
+    />
+    <link href="{% static 'css/blog.css' %}?v=2" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header class="blog-header py-3">
+        <div class="row flex-nowrap justify-content-between align-items-center">
+          <div class="col-4 pt-1">
+            <a class="blog-header-logo text-dark" href="{% url 'home' %}"
+              >News<span class="text-warning">Pulse</span></a
+            >
+          </div>
+          <div class="col-4">
+            <form action="{% url 'search' %}" method="GET">
+              <div class="input-group">
+                <input
+                  class="form-control"
+                  type="text"
+                  name="keyword"
+                  value="{{ keyword|default:'' }}"
+                  placeholder="Search stories..."
+                  aria-label="Search stories"
+                />
+                <div class="input-group-append">
+                  <button type="submit" class="btn btn-warning">Go</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="col-4 d-flex justify-content-end align-items-center">
+            {% if not user.is_authenticated %}
+            <a class="btn btn-sm btn-warning" href="{% url 'login' %}">Login</a
+            >&nbsp;
+            <a
+              class="btn btn-sm btn-outline-secondary"
+              href="{% url 'register' %}"
+              >Register</a
+            >
+            {% else %}
+            <a href="{% url 'dashboard' %}">Dashboard</a>&emsp;<a
+              href="{% url 'logout' %}"
+              >Logout</a
+            >
+            {% endif %}
+          </div>
+        </div>
+      </header>
+
+      <div class="nav-scroller py-1 mb-3">
+        <nav class="nav d-flex justify-content-between category-nav">
+          {% for cat in categories %}
+          <a class="p-2 text-muted" href="{% url 'posts_by_category' cat.id %}"
+            >{{ cat.category_name }}</a
+          >
+          {% endfor %}
+          <a class="p-2 text-muted" href="{% url 'rss_feed' %}"
+            ><i class="fa fa-rss"></i> RSS</a
+          >
+        </nav>
+      </div>
+
+      {% if messages %} {% for message in messages %}
+      <div
+        class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show"
+        role="alert"
+      >
+        {{ message }}
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% endfor %} {% endif %} {% block content %}{% endblock %}
+    </div>
+
+    <footer class="blog-footer mt-5">
+      <p>
+        NewsPulse &middot; Django + AI-assisted publishing &middot; built by
+        <a href="#">Akshat</a>
+      </p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
