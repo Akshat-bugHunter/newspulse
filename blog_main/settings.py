@@ -12,9 +12,11 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import dj_database_url
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(BASE_DIR / ".env", override=True)
 
 
 # Quick-start development settings - unsuitable for production
@@ -170,8 +172,8 @@ ANTHROPIC_API_KEY = os.environ.get('ANTHROPIC_API_KEY', '')
 ANTHROPIC_MODEL = os.environ.get('ANTHROPIC_MODEL', 'claude-sonnet-5-5')
 
 # NewsAPI.org — https://newsapi.org/account
-# NEWSAPI_KEY = os.environ.get('NEWSAPI_KEY', '6241816c94ab4b9ba4881daa5fdf1189')
 NEWSAPI_KEY = os.environ.get('NEWSAPI_KEY', '')
+
 # Pagination
 POSTS_PER_PAGE = 6
 CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL', '')

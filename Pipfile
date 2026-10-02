@@ -9,6 +9,7 @@ django-crispy-forms = "*"
 crispy-bootstrap4 = "*"
 pillow = "*"
 dj-database-url = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
