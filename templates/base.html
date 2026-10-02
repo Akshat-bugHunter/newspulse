@@ -19,7 +19,7 @@
       href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900|Inter:400,500,600"
       rel="stylesheet"
     />
-    <link href="{% static 'css/blog.css' %}?v=2" rel="stylesheet" />
+    <link href="{% static 'css/blog.css' %}?v=3" rel="stylesheet" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -28,13 +28,13 @@
   <body>
     <div class="container">
       <header class="blog-header py-3">
-        <div class="row flex-nowrap justify-content-between align-items-center">
-          <div class="col-4 pt-1">
+        <div class="row align-items-center header-row">
+          <div class="col-12 col-md-4 pt-1 header-brand">
             <a class="blog-header-logo text-dark" href="{% url 'home' %}"
               >News<span class="text-warning">Pulse</span></a
             >
           </div>
-          <div class="col-4">
+          <div class="col-12 col-md-4 header-search">
             <form action="{% url 'search' %}" method="GET">
               <div class="input-group">
                 <input
@@ -51,7 +51,7 @@
               </div>
             </form>
           </div>
-          <div class="col-4 d-flex justify-content-end align-items-center">
+          <div class="col-12 col-md-4 d-flex justify-content-md-end justify-content-center align-items-center header-auth">
             {% if not user.is_authenticated %}
             <a class="btn btn-sm btn-warning" href="{% url 'login' %}">Login</a
             >&nbsp;
