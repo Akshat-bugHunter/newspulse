@@ -8,6 +8,7 @@ django = ">=4.2"
 django-crispy-forms = "*"
 crispy-bootstrap4 = "*"
 pillow = "*"
+dj-database-url = "*"
 
 [dev-packages]
 
