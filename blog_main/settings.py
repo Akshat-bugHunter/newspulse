@@ -27,11 +27,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-dev-only-change-me')
 DEBUG = os.environ.get('DEBUG', '1') == '1'
 
 ALLOWED_HOSTS = [
-    h for h in os.environ.get(
-        'ALLOWED_HOSTS',
-        '127.0.0.1,localhost'
-    ).split(',')
-    if h
+    h.strip()
+    for h in os.environ.get("ALLOWED_HOSTS", "").split(",")
+    if h.strip()
 ]
 
 
