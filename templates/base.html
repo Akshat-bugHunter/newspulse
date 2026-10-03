@@ -51,7 +51,9 @@
               </div>
             </form>
           </div>
-          <div class="col-12 col-md-4 d-flex justify-content-md-end justify-content-center align-items-center header-auth">
+          <div
+            class="col-12 col-md-4 d-flex justify-content-md-end justify-content-center align-items-center header-auth"
+          >
             {% if not user.is_authenticated %}
             <a class="btn btn-sm btn-warning" href="{% url 'login' %}">Login</a
             >&nbsp;
@@ -60,11 +62,50 @@
               href="{% url 'register' %}"
               >Register</a
             >
+
             {% else %}
-            <a href="{% url 'dashboard' %}">Dashboard</a>&emsp;<a
-              href="{% url 'logout' %}"
-              >Logout</a
-            >
+            <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center pr-3 mr-3 border-right">
+                <div
+                  class="d-flex align-items-center justify-content-center rounded-circle font-weight-bold mr-2"
+                  style="
+                    width: 38px;
+                    height: 38px;
+                    background: #ffc107;
+                    color: #212529;
+                    flex-shrink: 0;
+                  "
+                  title="{{ user.username }}"
+                >
+                  {{ user.username|first|upper }}
+                </div>
+                <div class="d-none d-sm-block" style="line-height: 1.15">
+                  <div class="font-weight-bold small text-dark">
+                    {{ user.get_full_name|default:user.username }}
+                  </div>
+                  <span
+    class="badge badge-warning text-uppercase"
+    style="font-size: 0.6rem; letter-spacing: 0.04em"
+>
+    {% if user.is_superuser %}
+        Admin
+    {% elif user.is_staff %}
+        Staff
+    {% else %}
+        Author
+    {% endif %}
+</span>
+                </div>
+              </div>
+              <a class="btn btn-sm btn-dark mr-2" href="{% url 'dashboard' %}"
+                >Dashboard</a
+              >
+              <a
+                class="btn btn-sm btn-outline-secondary"
+                href="{% url 'logout' %}"
+                >Logout</a
+              >
+            </div>
             {% endif %}
           </div>
         </div>

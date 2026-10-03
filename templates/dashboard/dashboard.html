@@ -3,44 +3,98 @@
 <div class="row">
   {% include 'dashboard/sidebar.html' %}
   <div class="col-md-9">
-    <span>Logged in as <b>{{ user }}</b></span>
-    <div class="row mt-2">
-      <div class="col"><div class="card stat-card mb-3 text-center"><div class="card-header text-uppercase small font-weight-bold">Posts</div><div class="card-body py-2"><h2 class="mb-0">{{ blogs_count }}</h2><small class="text-muted">{{ published_count }} live &middot; {{ draft_count }} drafts</small></div></div></div>
-      <div class="col"><div class="card stat-card mb-3 text-center"><div class="card-header text-uppercase small font-weight-bold">Categories</div><div class="card-body py-2"><h2 class="mb-0">{{ category_count }}</h2></div></div></div>
-      <div class="col"><div class="card stat-card mb-3 text-center"><div class="card-header text-uppercase small font-weight-bold">Total views</div><div class="card-body py-2"><h2 class="mb-0">{{ total_views }}</h2></div></div></div>
-      <div class="col"><div class="card stat-card mb-3 text-center"><div class="card-header text-uppercase small font-weight-bold">Comments</div><div class="card-body py-2"><h2 class="mb-0">{{ comment_count }}</h2></div></div></div>
+ 
+
+    <!-- Stats -->
+    <div class="row">
+      <div class="col-6 col-md-3 mb-3">
+        <div class="card stat-card h-100 text-center">
+          <div class="card-header text-uppercase small font-weight-bold">Posts</div>
+          <div class="card-body py-3 d-flex flex-column justify-content-center">
+            <h2 class="mb-0">{{ blogs_count }}</h2>
+            <small class="text-muted">{{ published_count }} live &middot; {{ draft_count }} draft{{ draft_count|pluralize }}</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3 mb-3">
+        <div class="card stat-card h-100 text-center">
+          <div class="card-header text-uppercase small font-weight-bold">Categories</div>
+          <div class="card-body py-3 d-flex flex-column justify-content-center">
+            <h2 class="mb-0">{{ category_count }}</h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3 mb-3">
+        <div class="card stat-card h-100 text-center">
+          <div class="card-header text-uppercase small font-weight-bold">Total views</div>
+          <div class="card-body py-3 d-flex flex-column justify-content-center">
+            <h2 class="mb-0">{{ total_views }}</h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3 mb-3">
+        <div class="card stat-card h-100 text-center">
+          <div class="card-header text-uppercase small font-weight-bold">Comments</div>
+          <div class="card-body py-3 d-flex flex-column justify-content-center">
+            <h2 class="mb-0">{{ comment_count }}</h2>
+          </div>
+        </div>
+      </div>
     </div>
 
+    <!-- Top posts + sentiment -->
     <div class="row">
-      <div class="col-md-6">
-        <h5>Top posts by views</h5>
-        <ul class="list-group mb-3">
-          {% for p in top_posts %}<li class="list-group-item d-flex justify-content-between"><span>{{ p.title|truncatechars:40 }}</span><span class="badge badge-warning align-self-center">{{ p.views }}</span></li>{% empty %}<li class="list-group-item">No data yet.</li>{% endfor %}
+      <div class="col-md-6 mb-4">
+        <h5 class="mb-3">Top posts by views</h5>
+        <ul class="list-group">
+          {% for p in top_posts %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span class="text-truncate mr-3" style="min-width:0;" title="{{ p.title }}">{{ p.title }}</span>
+            <span class="badge badge-warning flex-shrink-0" style="flex-shrink:0;">{{ p.views }}</span>
+          </li>
+          {% empty %}
+          <li class="list-group-item text-muted">No data yet.</li>
+          {% endfor %}
         </ul>
       </div>
-      <div class="col-md-6">
-        <h5>Comment sentiment <small class="text-muted">(AI)</small></h5>
+
+      <div class="col-md-6 mb-4">
+        <h5 class="mb-3">Comment sentiment <small class="text-muted">(AI)</small></h5>
+        {% if comment_count %}
         <div class="progress mb-2" style="height:22px">
-          {% if comment_count %}
-          <div class="progress-bar bg-success" style="width:{% widthratio sentiment.positive comment_count 100 %}%">{{ sentiment.positive }} pos</div>
-          <div class="progress-bar bg-secondary" style="width:{% widthratio sentiment.neutral comment_count 100 %}%">{{ sentiment.neutral }} neutral</div>
-          <div class="progress-bar bg-danger" style="width:{% widthratio sentiment.negative comment_count 100 %}%">{{ sentiment.negative }} neg</div>
-          {% endif %}
+          {% if sentiment.positive %}<div class="progress-bar bg-success" title="Positive: {{ sentiment.positive }}" style="width:{% widthratio sentiment.positive comment_count 100 %}%">{{ sentiment.positive }}</div>{% endif %}
+          {% if sentiment.neutral %}<div class="progress-bar bg-secondary" title="Neutral: {{ sentiment.neutral }}" style="width:{% widthratio sentiment.neutral comment_count 100 %}%">{{ sentiment.neutral }}</div>{% endif %}
+          {% if sentiment.negative %}<div class="progress-bar bg-danger" title="Negative: {{ sentiment.negative }}" style="width:{% widthratio sentiment.negative comment_count 100 %}%">{{ sentiment.negative }}</div>{% endif %}
         </div>
-        {% if not comment_count %}<p class="text-muted">No comments yet.</p>{% endif %}
+        <div class="small text-muted">
+          <span class="mr-3"><span class="badge badge-success">&nbsp;</span> Positive ({{ sentiment.positive }})</span>
+          <span class="mr-3"><span class="badge badge-secondary">&nbsp;</span> Neutral ({{ sentiment.neutral }})</span>
+          <span><span class="badge badge-danger">&nbsp;</span> Negative ({{ sentiment.negative }})</span>
+        </div>
+        {% else %}
+        <p class="text-muted">No comments yet.</p>
+        {% endif %}
       </div>
     </div>
 
-    <h5>Flagged comments <small class="text-muted">(auto-held by toxicity check)</small></h5>
+    <!-- Flagged comments -->
+    <h5 class="mb-3">Flagged comments <small class="text-muted">(auto-held by toxicity check)</small></h5>
     {% for c in flagged_comments %}
-    <div class="card mb-2"><div class="card-body py-2 d-flex justify-content-between align-items-center">
-      <div><span>{{ c.comment }}</span><br><small class="text-muted">{{ c.user }} on {{ c.blog.title|truncatechars:40 }}</small></div>
-      <div class="text-nowrap">
-        <form action="{% url 'approve_comment' c.id %}" method="POST" class="d-inline">{% csrf_token %}<button class="btn btn-sm btn-outline-success">Approve</button></form>
-        <form action="{% url 'delete_comment' c.id %}" method="POST" class="d-inline">{% csrf_token %}<button class="btn btn-sm btn-outline-danger">Delete</button></form>
+    <div class="card mb-2 border-warning">
+      <div class="card-body py-2 d-flex justify-content-between align-items-center">
+        <div class="mr-3" style="min-width:0;">
+          <div>{{ c.comment }}</div>
+          <small class="text-muted">{{ c.user }} on {{ c.blog.title|truncatechars:40 }}</small>
+        </div>
+        <div class="text-nowrap">
+          <form action="{% url 'approve_comment' c.id %}" method="POST" class="d-inline">{% csrf_token %}<button type="submit" class="btn btn-sm btn-outline-success">Approve</button></form>
+          <form action="{% url 'delete_comment' c.id %}" method="POST" class="d-inline">{% csrf_token %}<button type="submit" class="btn btn-sm btn-outline-danger">Delete</button></form>
+        </div>
       </div>
-    </div></div>
-    {% empty %}<p class="text-muted">Nothing to review.</p>{% endfor %}
+    </div>
+    {% empty %}
+    <p class="text-muted">Nothing to review.</p>
+    {% endfor %}
   </div>
 </div>
 {% endblock %}
