@@ -5,7 +5,11 @@
 }
 
 .blog-header-logo {
-  font-family: "Playfair Display", Georgia, "Times New Roman", serif/*rtl:Amiri, Georgia, "Times New Roman", serif*/;
+  font-family:
+    "Playfair Display",
+    Georgia,
+    "Times New Roman",
+    serif /*rtl:Amiri, Georgia, "Times New Roman", serif*/;
   font-size: 2.25rem;
 }
 
@@ -13,8 +17,17 @@
   text-decoration: none;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: "Playfair Display", Georgia, "Times New Roman", serif/*rtl:Amiri, Georgia, "Times New Roman", serif*/;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family:
+    "Playfair Display",
+    Georgia,
+    "Times New Roman",
+    serif /*rtl:Amiri, Georgia, "Times New Roman", serif*/;
 }
 
 .display-4 {
@@ -30,9 +43,13 @@ h1, h2, h3, h4, h5, h6 {
   flex: 0 0 auto;
 }
 
-.h-250 { height: 250px; }
+.h-250 {
+  height: 250px;
+}
 @media (min-width: 768px) {
-  .h-md-250 { height: 250px; }
+  .h-md-250 {
+    height: 250px;
+  }
 }
 
 /* Pagination */
@@ -62,20 +79,295 @@ h1, h2, h3, h4, h5, h6 {
   color: #727272;
   text-align: center;
   background-color: #f9f9f9;
-  border-top: .05rem solid #e5e5e5;
+  border-top: 0.05rem solid #e5e5e5;
 }
 .blog-footer p:last-child {
   margin-bottom: 0;
 }
 
 /* ---- NewsPulse additions ---- */
-body { font-family: Inter, -apple-system, "Segoe UI", sans-serif; color: #212529; }
-.section-title { text-transform: uppercase; letter-spacing: 2px; color: #e0a800; margin: 1.5rem 0 1rem; font-size: 1.1rem; }
-.category-nav a:hover { color: #212529 !important; text-decoration: none; }
-.hero { background-size: cover; background-position: center; background-blend-mode: overlay; }
-.post-thumb { width: 100%; height: 130px; object-fit: cover; border-radius: .4rem; }
-.post-card h4 a:hover { text-decoration: none; color: #e0a800 !important; }
-.ai-box { background: #fff8e1; border-left: 4px solid #ffc107; padding: .9rem 1.1rem; border-radius: .3rem; }
-.article-body p { font-size: 1.08rem; line-height: 1.75; }
-.trending-list li::marker { font-weight: 700; color: #e0a800; }
-.stat-card h2 { font-family: Playfair Display, serif; }
+body {
+  font-family:
+    Inter,
+    -apple-system,
+    "Segoe UI",
+    sans-serif;
+  color: #212529;
+}
+.section-title {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #e0a800;
+  margin: 1.5rem 0 1rem;
+  font-size: 1.1rem;
+}
+.category-nav a:hover {
+  color: #212529 !important;
+  text-decoration: none;
+}
+.hero {
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: overlay;
+}
+.post-thumb {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 0.4rem;
+}
+.post-card h4 a:hover {
+  text-decoration: none;
+  color: #e0a800 !important;
+}
+.ai-box {
+  background: #fff8e1;
+  border-left: 4px solid #ffc107;
+  padding: 0.9rem 1.1rem;
+  border-radius: 0.3rem;
+}
+.article-body p {
+  font-size: 1.08rem;
+  line-height: 1.75;
+}
+.trending-list li::marker {
+  font-weight: 700;
+  color: #e0a800;
+}
+.stat-card h2 {
+  font-family:
+    Playfair Display,
+    serif;
+}
+
+/* =========================
+   NewsPulse responsive fixes
+   ========================= */
+
+.hero-jumbotron {
+  min-height: 430px;
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-content {
+  max-width: 900px;
+}
+
+.hero-title {
+  font-size: clamp(2.35rem, 4vw, 4rem);
+  line-height: 1.08;
+}
+
+.top-story-thumb {
+  width: 100%;
+  height: 210px;
+  object-fit: cover;
+}
+
+.category-nav {
+  gap: 0.25rem;
+}
+
+@media (max-width: 767.98px) {
+  .nav-scroller {
+    margin-bottom: 1rem !important;
+    overflow: hidden;
+  }
+
+  .category-nav {
+    justify-content: flex-start !important;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 2px 0 8px;
+  }
+
+  .category-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .category-nav a {
+    flex: 0 0 auto;
+    padding: 0.45rem 0.65rem !important;
+    font-size: 15px;
+  }
+
+  .hero-jumbotron {
+    min-height: 0;
+    margin-bottom: 2rem !important;
+    border-radius: 12px !important;
+    background-position: center;
+  }
+
+  .hero-content {
+    width: 100%;
+    max-width: none;
+    padding: 28px 20px !important;
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 8.5vw, 2.7rem);
+    line-height: 1.08;
+    margin-bottom: 1rem !important;
+  }
+
+  .hero-desc {
+    font-size: 0.98rem !important;
+    line-height: 1.55;
+  }
+
+  .hero-content .btn {
+    padding-left: 1.1rem !important;
+    padding-right: 1.1rem !important;
+  }
+
+  .section-title {
+    font-size: 1rem;
+    letter-spacing: 1.5px;
+  }
+
+  .section-line {
+    margin-left: 0.75rem !important;
+  }
+
+  .top-story-card {
+    margin-bottom: 0;
+  }
+
+  .top-story-thumb {
+    height: 190px;
+  }
+
+  .blog-main,
+  .blog-main + .col-lg-4 {
+    width: 100%;
+  }
+
+  .post-thumb {
+    height: 190px;
+  }
+
+  .blog-footer {
+    padding: 2rem 15px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 380px) {
+  .blog-header-logo {
+    font-size: 1.8rem;
+  }
+
+  .hero-content {
+    padding: 24px 17px !important;
+  }
+
+  .hero-title {
+    font-size: 1.9rem;
+  }
+
+  .hero-desc {
+    font-size: 0.92rem !important;
+  }
+}
+
+/* ===== Header ===== */
+.np-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+}
+.np-logo {
+  flex: 0 0 auto;
+  line-height: 1;
+  white-space: nowrap;
+}
+.np-search {
+  flex: 1 1 260px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+.np-search .form-control,
+.np-search .btn {
+  height: 42px;
+}
+.np-search .form-control:focus {
+  border-color: #ffc107;
+  box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+}
+.np-auth {
+  flex: 0 0 auto;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.np-user {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding-right: 0.9rem;
+  margin-right: 0.25rem;
+  border-right: 1px solid #e5e5e5;
+}
+.np-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.np-user-meta {
+  line-height: 1.2;
+}
+.np-user-name {
+  display: block;
+  font-weight: 600;
+  font-size: 0.85rem;
+  max-width: 130px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.np-user-meta .badge {
+  font-size: 0.6rem;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 991.98px) {
+  .np-user {
+    border-right: 0;
+    padding-right: 0;
+    margin-right: 0;
+  }
+}
+@media (max-width: 767.98px) {
+  .np-logo {
+    order: 1;
+    font-size: 1.85rem;
+  }
+  .np-auth {
+    order: 2;
+  }
+  .np-search {
+    order: 3;
+    flex: 1 1 100%;
+    max-width: none;
+    margin: 0;
+  }
+}
+@media (max-width: 400px) {
+  .np-logo {
+    font-size: 1.6rem;
+  }
+  .np-auth .btn {
+    padding: 0.25rem 0.5rem;
+  }
+}

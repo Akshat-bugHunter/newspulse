@@ -1,4 +1,5 @@
-{% load static %}<!doctype html>
+{% load static %}
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -23,7 +24,6 @@
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-      integrity="sha512-SfTiTlX6kk+qitfeydUV21FY5YD4Rymc6ZNdB++a95vdGQ/Pp2/4204D5gM11/dD1k5A1/p6Q="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
@@ -69,7 +69,8 @@
                     type="submit"
                     class="btn btn-warning"
                     aria-label="Submit search"
-                  >Go
+                  >
+                    Go
                     <i class="fa fa-search" aria-hidden="true"></i>
                   </button>
                 </div>
@@ -171,7 +172,9 @@
       <div class="messages-container my-2">
         {% for message in messages %}
         <div
-          class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show"
+          class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}
+          {% endif %}
+           alert-dismissible fade show"
           role="alert"
         >
           {{ message }}
@@ -189,7 +192,7 @@
       {% endif %}
 
       <!-- Main Content Block -->
-      <main role="main">{% block content %}{% endblock %}</main>
+      <main role="main">{% block content %} {% endblock %}</main>
     </div>
 
     <!-- Footer -->
@@ -207,6 +210,6 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-    {% block extra_js %}{% endblock %}
+    {% block extra_js %} {% endblock %}
   </body>
 </html>
