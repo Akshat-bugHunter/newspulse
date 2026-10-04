@@ -3,81 +3,163 @@
 {% block content %}
 
 {% for post in featured_posts %}
-{% if forloop.first %}
-<div class="hero-jumbotron position-relative rounded-xl overflow-hidden mb-5 text-white shadow-xs" style="background-image: linear-gradient(180deg, rgba(15, 23, 42, 0.3) 0%, rgba(15, 23, 42, 0.88) 85%), url('{{ post.featured_image.url }}');">
-  <div class="hero-content p-4 p-md-5 col-lg-8 col-xl-7">
-    <a href="{% url 'posts_by_category' post.category.id %}" class="category-badge mb-3 d-inline-block">
-      {{ post.category }}
-    </a>
-    <h1 class="hero-title mb-3 font-weight-bold">
-      <a href="{% url 'blogs' post.slug %}" class="text-white text-decoration-none">{{ post.title }}</a>
-    </h1>
-    <p class="hero-desc lead mb-4 text-light-translucent" style="font-size: 1.05rem;">
-      {{ post.short_description|truncatewords:28 }}
-    </p>
-    <div class="d-flex align-items-center flex-wrap">
-      <a href="{% url 'blogs' post.slug %}" class="btn btn-warning rounded-pill px-4 py-2 font-weight-600 mr-3 mb-2 shadow-xs">
-        Read Story <i class="fa fa-arrow-right ml-1"></i>
-      </a>
-      <span class="text-light-translucent small mb-2">
-        <i class="fa fa-clock-o mr-1"></i>{{ post.created_at|timesince }} ago &middot; {{ post.reading_time }} min read
-      </span>
+    {% if forloop.first %}
+
+    <div class="hero-jumbotron position-relative rounded-xl overflow-hidden mb-5 text-white shadow-xs"
+         style="background-image: linear-gradient(180deg, rgba(15, 23, 42, 0.3) 0%, rgba(15, 23, 42, 0.88) 85%), url('{{ post.featured_image.url }}');">
+
+        <div class="hero-content p-4 p-md-5 col-lg-8 col-xl-7">
+
+            <a href="{% url 'posts_by_category' post.category.id %}"
+               class="category-badge mb-3 d-inline-block">
+                {{ post.category }}
+            </a>
+
+            <h1 class="hero-title mb-3 font-weight-bold">
+                <a href="{% url 'blogs' post.slug %}"
+                   class="text-white text-decoration-none">
+                    {{ post.title }}
+                </a>
+            </h1>
+
+            <p class="hero-desc lead mb-4 text-light-translucent"
+               style="font-size: 1.05rem;">
+                {{ post.short_description|truncatewords:28 }}
+            </p>
+
+            <div class="d-flex align-items-center flex-wrap">
+
+                <a href="{% url 'blogs' post.slug %}"
+                   class="btn btn-warning rounded-pill px-4 py-2 font-weight-600 mr-3 mb-2 shadow-xs">
+                    Read Story
+                    <i class="fa fa-arrow-right ml-1"></i>
+                </a>
+
+                <span class="text-light-translucent small mb-2">
+                    <i class="fa fa-clock-o mr-1"></i>
+                    {{ post.created_at|timesince }} ago
+                    &middot;
+                    {{ post.reading_time }} min read
+                </span>
+
+            </div>
+
+        </div>
     </div>
-  </div>
-</div>
-{% endif %}
+
+    {% endif %}
 {% endfor %}
 
+
 {% if featured_posts|length > 1 %}
+
 <div class="section-header d-flex align-items-center justify-content-between mb-3">
-  <h3 class="section-title mb-0">Top Stories</h3>
-  <span class="section-line flex-grow-1 ml-3"></span>
+    <h3 class="section-title mb-0">Top Stories</h3>
+    <span class="section-line flex-grow-1 ml-3"></span>
 </div>
+
 <div class="row mb-4">
-  {% for post in featured_posts %}
-  {% if not forloop.first %}
-  <div class="col-md-4 mb-3">
-    <div class="card top-story-card h-100 border-0 shadow-xs rounded-lg overflow-hidden bg-white">
-      <a href="{% url 'blogs' post.slug %}" class="d-block overflow-hidden position-relative">
-        <img src="{{ post.featured_image.url }}" class="card-img-top top-story-thumb" alt="{{ post.title }}" loading="lazy">
-        <span class="category-badge-overlay position-absolute">{{ post.category }}</span>
-      </a>
-      <div class="card-body p-3 d-flex flex-column justify-content-between">
-        <h5 class="top-story-title mb-2">
-          <a href="{% url 'blogs' post.slug %}" class="text-dark">{{ post.title }}</a>
-        </h5>
-        <div class="d-flex align-items-center justify-content-between text-muted small mt-2 pt-2 border-top">
-          <span><i class="fa fa-clock-o mr-1"></i>{{ post.created_at|timesince }} ago</span>
-          <span><i class="fa fa-book mr-1"></i>{{ post.reading_time }} min</span>
+
+    {% for post in featured_posts %}
+
+        {% if not forloop.first %}
+
+        <div class="col-md-4 mb-3">
+
+            <div class="card top-story-card h-100 border-0 shadow-xs rounded-lg overflow-hidden bg-white">
+
+                <a href="{% url 'blogs' post.slug %}"
+                   class="d-block overflow-hidden position-relative">
+
+                    <img src="{{ post.featured_image.url }}"
+                         class="card-img-top top-story-thumb"
+                         alt="{{ post.title }}"
+                         loading="lazy">
+
+                    <span class="category-badge-overlay position-absolute">
+                        {{ post.category }}
+                    </span>
+
+                </a>
+
+                <div class="card-body p-3 d-flex flex-column justify-content-between">
+
+                    <h5 class="top-story-title mb-2">
+                        <a href="{% url 'blogs' post.slug %}"
+                           class="text-dark">
+                            {{ post.title }}
+                        </a>
+                    </h5>
+
+                    <div class="d-flex align-items-center justify-content-between text-muted small mt-2 pt-2 border-top">
+
+                        <span>
+                            <i class="fa fa-clock-o mr-1"></i>
+                            {{ post.created_at|timesince }} ago
+                        </span>
+
+                        <span>
+                            <i class="fa fa-book mr-1"></i>
+                            {{ post.reading_time }} min
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
-      </div>
-    </div>
-  </div>
-  {% endif %}
-  {% endfor %}
-</div>
-{% endif %}
 
-<div class="section-header d-flex align-items-center justify-content-between mb-3 mt-4">
-  <h3 class="section-title mb-0">Latest News</h3>
-  <span class="section-line flex-grow-1 ml-3"></span>
-</div>
+        {% endif %}
 
-<div class="row">
-  <div class="col-lg-8 blog-main">
-    {% for post in page_obj %}
-      {% include '_post_card.html' %}
-    {% empty %}
-      <div class="text-center py-5 bg-white rounded-lg border">
-        <p class="text-muted mb-0">No published stories yet.</p>
-      </div>
     {% endfor %}
 
-    {% include '_pagination.html' %}
-  </div>
-
-  <div class="col-lg-4">
-    {% include '_sidebar.html' %}
-  </div>
 </div>
+
+{% endif %}
+
+
+<div class="section-header d-flex align-items-center justify-content-between mb-3 mt-4">
+
+    <h3 class="section-title mb-0">
+        Latest News
+    </h3>
+
+    <span class="section-line flex-grow-1 ml-3"></span>
+
+</div>
+
+
+<div class="row">
+
+    <div class="col-lg-8 blog-main">
+
+        {% for post in page_obj %}
+
+            {% include '_post_card.html' %}
+
+        {% empty %}
+
+            <div class="text-center py-5 bg-white rounded-lg border">
+                <p class="text-muted mb-0">
+                    No published stories yet.
+                </p>
+            </div>
+
+        {% endfor %}
+
+        {% include '_pagination.html' %}
+
+    </div>
+
+
+    <div class="col-lg-4">
+
+        {% include '_sidebar.html' %}
+
+    </div>
+
+</div>
+
 {% endblock %}

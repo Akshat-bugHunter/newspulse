@@ -1,12 +1,17 @@
 {% extends 'base.html' %}
-{% block title %}{% if keyword %}Search: {{ keyword }} - NewsPulse{% else %}Search - NewsPulse{% endif %}{% endblock %}
+
+{% block title %}
+  {% if keyword %}Search: {{ keyword }} - NewsPulse{% else %}Search - NewsPulse{% endif %}
+{% endblock %}
 
 {% block content %}
 <div class="category-header-banner p-4 p-md-4 mb-4 rounded-lg bg-white border">
   <div class="d-flex flex-wrap align-items-center justify-content-between">
     <div>
       <div class="text-muted small mb-1">
-        <a href="{% url 'home' %}" class="text-secondary"><i class="fa fa-home mr-1"></i>Home</a>
+        <a href="{% url 'home' %}" class="text-secondary">
+          <i class="fa fa-home mr-1"></i>Home
+        </a>
         <span class="mx-1">&rsaquo;</span>
         <span class="text-dark font-weight-600">Search</span>
       </div>
@@ -22,11 +27,11 @@
       </p>
     </div>
     {% if keyword %}
-    <div class="mt-2 mt-md-0">
-      <span class="category-badge">
-        <i class="fa fa-search mr-1"></i>{{ total }} Result{{ total|pluralize }}
-      </span>
-    </div>
+      <div class="mt-2 mt-md-0">
+        <span class="category-badge">
+          <i class="fa fa-search mr-1"></i>{{ total }} Result{{ total|pluralize }}
+        </span>
+      </div>
     {% endif %}
   </div>
 </div>
@@ -39,8 +44,16 @@
       <div class="text-center py-5 bg-white rounded-lg border">
         <i class="fa fa-search fa-3x text-muted mb-3"></i>
         <h5>No results found</h5>
-        <p class="text-muted">{% if keyword %}No articles matched "{{ keyword }}". Try broader keywords.{% else %}Type your query in the search bar above.{% endif %}</p>
-        <a href="{% url 'home' %}" class="btn btn-sm btn-outline-primary rounded-pill">Return to Homepage</a>
+        <p class="text-muted">
+          {% if keyword %}
+            No articles matched "{{ keyword }}". Try broader keywords.
+          {% else %}
+            Type your query in the search bar above.
+          {% endif %}
+        </p>
+        <a href="{% url 'home' %}" class="btn btn-sm btn-outline-primary rounded-pill">
+          Return to Homepage
+        </a>
       </div>
     {% endfor %}
 

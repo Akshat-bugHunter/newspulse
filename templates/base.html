@@ -5,150 +5,208 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}NewsPulse{% endblock %}</title>
+
     <link
       rel="alternate"
       type="application/rss+xml"
-      title="NewsPulse"
+      title="NewsPulse RSS Feed"
       href="{% url 'rss_feed' %}"
     />
+
+    <!-- Stylesheets -->
     <link
+      rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
+      integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+      crossorigin="anonymous"
     />
-    <link
-      href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900|Inter:400,500,600"
-      rel="stylesheet"
-    />
-    <link href="{% static 'css/blog.css' %}?v=3" rel="stylesheet" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+      integrity="sha512-SfTiTlX6kk+qitfeydUV21FY5YD4Rymc6ZNdB++a95vdGQ/Pp2/4204D5gM11/dD1k5A1/p6Q="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link href="{% static 'css/blog.css' %}?v=3" rel="stylesheet" />
+
+    {% block extra_css %}{% endblock %}
   </head>
-  <body>
-    <div class="container">
+
+  <body class="d-flex flex-column min-vh-100">
+    <div class="container flex-grow-1">
+      <!-- Site Header -->
       <header class="blog-header py-3">
         <div class="row align-items-center header-row">
-          <div class="col-12 col-md-4 pt-1 header-brand">
-            <a class="blog-header-logo text-dark" href="{% url 'home' %}"
-              >News<span class="text-warning">Pulse</span></a
+          <div
+            class="col-12 col-md-4 pt-1 header-brand text-center text-md-left mb-2 mb-md-0"
+          >
+            <a
+              class="blog-header-logo text-dark font-weight-bold"
+              href="{% url 'home' %}"
             >
+              News<span class="text-warning">Pulse</span>
+            </a>
           </div>
-          <div class="col-12 col-md-4 header-search">
-            <form action="{% url 'search' %}" method="GET">
+
+          <!-- Search Bar -->
+          <div class="col-12 col-md-4 header-search mb-2 mb-md-0">
+            <form action="{% url 'search' %}" method="GET" role="search">
               <div class="input-group">
                 <input
                   class="form-control"
-                  type="text"
+                  type="search"
                   name="keyword"
                   value="{{ keyword|default:'' }}"
                   placeholder="Search stories..."
                   aria-label="Search stories"
                 />
                 <div class="input-group-append">
-                  <button type="submit" class="btn btn-warning">Go</button>
+                  <button
+                    type="submit"
+                    class="btn btn-warning"
+                    aria-label="Submit search"
+                  >Go
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                  </button>
                 </div>
               </div>
             </form>
           </div>
+
+          <!-- Auth Navigation -->
           <div
-            class="col-12 col-md-4 d-flex justify-content-md-end justify-content-center align-items-center header-auth"
+            class="col-12 col-md-4 d-flex justify-content-center justify-content-md-end align-items-center header-auth"
           >
             {% if not user.is_authenticated %}
-            <a class="btn btn-sm btn-warning" href="{% url 'login' %}">Login</a
-            >&nbsp;
+            <a class="btn btn-sm btn-warning mr-2" href="{% url 'login' %}"
+              >Login</a
+            >
             <a
               class="btn btn-sm btn-outline-secondary"
               href="{% url 'register' %}"
               >Register</a
             >
-
             {% else %}
             <div class="d-flex align-items-center">
               <div class="d-flex align-items-center pr-3 mr-3 border-right">
                 <div
-                  class="d-flex align-items-center justify-content-center rounded-circle font-weight-bold mr-2"
-                  style="
-                    width: 38px;
-                    height: 38px;
-                    background: #ffc107;
-                    color: #212529;
-                    flex-shrink: 0;
-                  "
+                  class="d-flex align-items-center justify-content-center rounded-circle font-weight-bold mr-2 text-dark bg-warning"
+                  style="width: 38px; height: 38px; flex-shrink: 0"
                   title="{{ user.username }}"
+                  aria-hidden="true"
                 >
                   {{ user.username|first|upper }}
                 </div>
-                <div class="d-none d-sm-block" style="line-height: 1.15">
-                  <div class="font-weight-bold small text-dark">
+                <div
+                  class="d-none d-sm-block text-left"
+                  style="line-height: 1.15"
+                >
+                  <div
+                    class="font-weight-bold small text-dark text-truncate"
+                    style="max-width: 110px"
+                  >
                     {{ user.get_full_name|default:user.username }}
                   </div>
                   <span
-    class="badge badge-warning text-uppercase"
-    style="font-size: 0.6rem; letter-spacing: 0.04em"
->
-    {% if user.is_superuser %}
-        Admin
-    {% elif user.is_staff %}
-        Staff
-    {% else %}
-        Author
-    {% endif %}
-</span>
+                    class="badge badge-warning text-uppercase"
+                    style="font-size: 0.6rem; letter-spacing: 0.04em"
+                  >
+                    {% if user.is_superuser %} Admin {% elif user.is_staff %}
+                    Staff {% else %} Author {% endif %}
+                  </span>
                 </div>
               </div>
+
               <a class="btn btn-sm btn-dark mr-2" href="{% url 'dashboard' %}"
                 >Dashboard</a
               >
-              <a
-                class="btn btn-sm btn-outline-secondary"
-                href="{% url 'logout' %}"
-                >Logout</a
+
+              <!-- Standard Django POST logout -->
+              <form
+                action="{% url 'logout' %}"
+                method="POST"
+                class="d-inline m-0 p-0"
               >
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-outline-secondary">
+                  Logout
+                </button>
+              </form>
             </div>
             {% endif %}
           </div>
         </div>
       </header>
 
-      <div class="nav-scroller py-1 mb-3">
-        <nav class="nav d-flex justify-content-between category-nav">
+      <!-- Category Navigation -->
+      <div class="nav-scroller py-1 mb-3 border-bottom">
+        <nav
+          class="nav d-flex justify-content-between align-items-center category-nav overflow-auto"
+        >
           {% for cat in categories %}
-          <a class="p-2 text-muted" href="{% url 'posts_by_category' cat.id %}"
-            >{{ cat.category_name }}</a
+          <a
+            class="p-2 text-muted text-nowrap"
+            href="{% url 'posts_by_category' cat.id %}"
           >
+            {{ cat.category_name }}
+          </a>
+          {% empty %}
+          <span class="p-2 text-muted small">No categories available</span>
           {% endfor %}
-          <a class="p-2 text-muted" href="{% url 'rss_feed' %}"
-            ><i class="fa fa-rss"></i> RSS</a
+          <a
+            class="p-2 text-muted text-nowrap ml-auto"
+            href="{% url 'rss_feed' %}"
           >
+            <i class="fa fa-rss text-warning" aria-hidden="true"></i> RSS
+          </a>
         </nav>
       </div>
 
-      {% if messages %} {% for message in messages %}
-      <div
-        class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show"
-        role="alert"
-      >
-        {{ message }}
-        <button
-          type="button"
-          class="close"
-          data-dismiss="alert"
-          aria-label="Close"
+      <!-- Flash Messages -->
+      {% if messages %}
+      <div class="messages-container my-2">
+        {% for message in messages %}
+        <div
+          class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show"
+          role="alert"
         >
-          <span aria-hidden="true">&times;</span>
-        </button>
+          {{ message }}
+          <button
+            type="button"
+            class="close"
+            data-dismiss="alert"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% endfor %}
       </div>
-      {% endfor %} {% endif %} {% block content %}{% endblock %}
+      {% endif %}
+
+      <!-- Main Content Block -->
+      <main role="main">{% block content %}{% endblock %}</main>
     </div>
 
-    <footer class="blog-footer mt-5">
-      <p>
-        NewsPulse &middot; Django + AI-assisted publishing &middot; built by
-        <a href="#">Akshat</a>
-      </p>
+    <!-- Footer -->
+    <footer
+      class="blog-footer text-center py-4 mt-auto border-top bg-light text-muted"
+    >
+      <div class="container">
+        <p class="mb-0">
+          NewsPulse &middot; Django + AI-assisted publishing &middot; built by
+          <a href="#" class="text-dark font-weight-bold">Akshat</a>
+        </p>
+      </div>
     </footer>
+
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
   </body>
 </html>
